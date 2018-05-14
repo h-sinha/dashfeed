@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DashFeed - Uncluttered News</title>
+    <meta charset="UTF-8" />
+    <meta name="application-name" content="DashFeed">
+    <meta name="description" content="An uncluttered news aggregator for the modern era." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="32x32">
+    <link rel="stylesheet" href="{{ url_for('static', filename='card.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kelly+Slab&text=DashFed&effect=3d">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arvo|Raleway">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+</head>
+
+<body>
+    <header class="mdc-toolbar mdc-toolbar--fixed">
+        <span class="mdc-toolbar__title logo">
+                <div class="font-effect-3d"><a href="/" style="text-decoration: none; text-color: inherit;color: #fff">DashFeed</a></div>
+            </span>
+    </header>
+    <div class="news">
+        <div class="mdc-card article">
+                {% if badPrompt %}
+                <div class="bad-prompt">
+                    Oops! Looks like you missed something.
+                </div>
+                {% endif %}
+                {% if goodPrompt %}
+                <div class="good-prompt">
+                    Yay! Your article just got published.
+                </div>
+                {% endif %}
+                <div class="form">
+                    <form method="post" id="publish" enctype = "multipart/form-data">
+                        <label id="title-label" for="title" class="title-label">Publish Your Article</label>                            
+                        <input type="text" name="title" id="title" class="form-title" onkeyup="clearHint();">
+                        <label id="subtitle-label" for="title" class="title-label">Subtitle</label>                            
+                        <input type="text" name="subtitle" id="title" class="form-title" onkeyup="clearHintS();">
+                        <textarea id="summernote" name="editordata"></textarea>
+                        <label id="tag-label" for="title" class="title-label">Tag</label>                            
+                        <input type="text" name="tag" id="title" class="form-title" onkeyup="clearHintT();">
+                        <input type = "file" name = "file" />
+                    <button class="mdc-button mdc-card__action mdc-card__action--button" type="submit" form="publish" style="margin-left: 2vw;">Publish</button>                                        
+                    </form>                      
+                </div>
+        </div>                       
+    </div>
+    <script src="{{ url_for('static', filename='material-components-web.js') }}" async></script>
+    <script src="{{ url_for('static', filename='common.js') }}" async></script>
+    <div id="fb-root"></div>
+    <script>
+    $(document).ready(function() {
+        $('#summernote').summernote({height: 300, width: 750,focus: true,toolbar: [
+    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['font', ['strikethrough', 'superscript', 'subscript']],
+    ['fontsize', ['fontsize']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['height', ['height']]
+  ]});
+      });
+    </script>
+    <script>
+            function clearHint(){
+                var element = document.getElementById("title-label");
+                element.style.transform = "translate(-105%)";
+                element.style.color = "inherit";
+            }
+            function clearHintS(){
+                var element = document.getElementById("subtitle-label");
+                element.style.transform = "translate(-125%)";
+                element.style.color = "inherit";
+            }
+            function clearHintT(){
+                var element = document.getElementById("tag-label");
+                element.style.transform = "translate(-135%)";
+                element.style.color = "inherit";
+            }
+    </script>
+</body>
+
+</html>

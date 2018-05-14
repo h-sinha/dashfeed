@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DashFeed - Uncluttered News</title>
+    <meta charset="UTF-8" />
+    <meta name="application-name" content="DashFeed">
+    <meta name="description" content="An uncluttered news aggregator for the modern era." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="32x32">
+    <link rel="stylesheet" href="{{ url_for('static', filename='card.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kelly+Slab&text=DashFed&effect=3d">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arvo|Raleway">
+</head>
+
+<body>
+    <header class="mdc-toolbar mdc-toolbar--fixed">
+        <span class="mdc-toolbar__title logo">
+            <div class="font-effect-3d">DashFeed</div>
+        </span>
+    </header>
+    <div class="news">
+        <div class="mdc-card article">
+                <div class="mdc-card__actions">
+                        <!-- <button class="mdc-button mdc-card__action mdc-card__action--button click">Read It Later</button> -->
+                        <button class="mdc-button mdc-card__action mdc-card__action--button click"><a href="/tag/{{ tag }}">Related</a></button>
+                        <div class="fb-like" data-href="http://localhost:5000/article/{{ id }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                </div>
+                <h2 class="title">{{ title }}</h2>
+                <div class="mdc-card__media mdc-card__media--16-9 image" style="background-image: url({{ url_for('static', filename=image) }});"></div>
+                <div class="content">
+                    <div class="form">
+                        <form action="/new_user" method="post">
+                            <input type="email" name="email" id="email" class="form-email" onkeyup="clearHint();" autocomplete="off">
+                            <label id="email-label" for="email" class="email-label">E-Mail</label>
+                        </form>
+                    </div>
+                </div>
+        </div>                       
+    </div>
+    <script src="{{ url_for('static', filename='material-components-web.js') }}" async></script>
+    <script src="{{ url_for('static', filename='common.js') }}" async></script>
+</body>
+
+</html>

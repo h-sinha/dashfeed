@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DashFeed - Uncluttered News</title>
+    <meta charset="UTF-8" />
+    <meta name="application-name" content="DashFeed">
+    <meta name="description" content="An uncluttered news aggregator for the modern era." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="32x32">
+    <link rel="stylesheet" href="{{ url_for('static', filename='card.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kelly+Slab&text=DashFed&effect=3d">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arvo|Raleway">
+</head>
+
+<body>
+    <header class="mdc-toolbar mdc-toolbar--fixed">
+        <span class="mdc-toolbar__title logo">
+                <div class="font-effect-3d"><a href="/" style="text-decoration: none; text-color: inherit;color: #fff">DashFeed</a></div>
+        </span>
+        <div class="mdc-card category">
+            <div class="categ" style="background-color: #E57373">
+                {% if login %}
+                <a href="/publish">
+                    Publish                    
+                </a>
+                {% else %}
+                <a href="/login">
+                Login                    
+                </a>
+                {% endif %}                
+            </div>
+            {% if login %}
+            <div class="categ" style="background-color: #E57373">
+                    <a href="/readlater">Bookmarks</a>
+            </div>
+            {% endif %}
+            {% if login %}
+            <div class="categ" style="background-color: #E57373">
+                    <a href="/logout">Logout</a>
+            </div>
+            {% endif %}       
+            <div class="search-bar">
+                <form action="/search" method="GET">
+                <input type="text" name="search" id="search" class="search" onkeyup="clearHint();" autocomplete="off">
+                <label id="search-label" for="search" class="search-label">Search</label>                    
+            </form>
+            </div>
+            <div class="categ" style="background-color: #E57373">
+                <a href="/tag/sports">
+                Sports                    
+                </a>
+            </div>
+            <div class="categ" style="background-color: #F06292">
+                <a href="/tag/entertainment">
+                Entertainment                    
+                </a>
+            </div>
+            <div class="categ" style="background-color: #4FC3F7;color: #212121">
+                <a href="/tag/technology">
+                    Technology                    
+                </a>
+            </div>
+            <div class="categ" style="background-color: #4DB6AC">
+                <a href="/tag/business">
+                Business                    
+                </a>
+            </div>
+            <div class="categ" style="background-color: #81C784;color: #212121">
+                <a href="/tag/iiit">
+                    IIIT                    
+                </a>
+            </div>
+            <div class="categ" style="background-color: #FFD54F;color: #212121">
+                    <a href="/tag/world">
+                        World                    
+                    </a>
+            </div>
+            <div class="categ" style="background-color: #FFB74D;color: #212121">
+                <a href="/tag/lifestyle">
+                    Lifestyle                    
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="news">
+        {%for item in info %}
+        <div class="mdc-card sub-article">
+            <a class="mdc-card__primary-action mdc-ripple-upgraded" href="/article/{{item[0]}}">
+                {% set images = item[7].split(',') %}
+                <div class="mdc-card__media mdc-card__media--16-9 image" style="background-image: url({{ url_for('static', filename=images[0]) }});"></div>
+                <h2 class="title">{{item[1]}}</h2>
+                <div class="subtitle">
+                    {{item[2]}}
+                </div>
+            </a>
+             <div class="mdc-card__actions">
+                <button class="mdc-button mdc-card__action mdc-card__action--button click"><a href="/article/{{item[0]}}?readlater=1">Read It Later</a></button>
+                <button class="mdc-button mdc-card__action mdc-card__action--button click"> <a href="/tag/{{ item[6] }}">Related</a></button>
+            </div>
+        </div>
+        {% endfor %}                                
+    </div>
+    <script src="/static/material-components-web.js" async></script>
+    <script src="/static/common.js" async></script>
+    <script>
+        function clearHint(){
+            var element = document.getElementById("search-label");
+            element.style.transform = "translate(-1000%)";
+            element.style.color = "#FFFFFF";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DashFeed - Uncluttered News</title>
+    <meta charset="UTF-8" />
+    <meta name="application-name" content="DashFeed">
+    <meta name="description" content="An uncluttered news aggregator for the modern era." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="32x32">
+    <link rel="stylesheet" href="{{ url_for('static', filename='card.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kelly+Slab&text=DashFed&effect=3d">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arvo|Raleway">
+</head>
+
+<body>
+    <header class="mdc-toolbar mdc-toolbar--fixed">
+        <span class="mdc-toolbar__title logo">
+                <div class="font-effect-3d"><a href="/" style="text-decoration: none; text-color: inherit;color: #fff">DashFeed</a></div>
+            </span>
+    </header>
+    <div class="news">
+        <div class="mdc-card article">
+                <div class="mdc-card__actions">
+                        <button class="mdc-button mdc-card__action mdc-card__action--button click"><a href="/tag/{{ tag }}">Related</a></button>
+                        {% if saved %}
+                        <button class="mdc-button mdc-card__action mdc-card__action--button click"><a href="?unread=1">Remove Bookmark</a></button>
+                        {% else %}                        
+                        <button class="mdc-button mdc-card__action mdc-card__action--button click"><a href="?readlater=1">Read It Later</a></button>
+                        {% endif %}
+                        <iframe src="https://www.facebook.com/plugins/like.php?href={{ url }}&width=450&layout=standard&action=like&size=small&show_faces=true&share=true&height=80&appId" width="450" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                </div>
+                {% if goodPrompt %}
+                <div class="good-prompt">
+                    Saved for later.
+                </div>
+                {% endif %}
+                {% if badPrompt %}
+                <div class="bad-prompt">
+                    Removed from saved articles.
+                </div>
+                {% endif %}
+                <h2 class="title">{{ title }}</h2>
+                <div class="mdc-card__media mdc-card__media--16-9 image" style="background-image: url({{ url_for('static', filename=image) }});"></div>
+                <div class="content">
+                    {{ content | safe }}
+                </div>
+                <div class="mdc-card comment-section">
+                    <h2 class="pointer">Comments: </h2>
+                    {% for comment in comments %}                   
+                    <div class="mdc-card comment">
+                        {{ comment[0] }}
+                        <div class="name"><i>- {{ comment[1] }}</i></div>
+                    </div>
+                    {% endfor %}
+                    <div class="mdc-card comment">
+                        <form method="post" id="comment">
+                            <label id="comment-label" for="comment" class="comment-label">Have something to say ?</label>                                                        
+                            <textarea name="comment" id="comment" class="form-comment" onkeyup="clearHint();"></textarea>
+                        </form>
+                        <button class="mdc-button mdc-card__action mdc-card__action--button" type="submit" form="comment" style="margin: 2vw;">Post</button>                        
+                    </div>
+                </div>
+        </div>                       
+    </div>
+    <script src="{{ url_for('static', filename='material-components-web.js') }}" async></script>
+    <script src="{{ url_for('static', filename='common.js') }}" async></script>
+    <script>
+            function clearHint(){
+                var element = document.getElementById("comment-label");
+                element.style.transform = "translate(-200%)";
+                element.style.color = "inherit";
+            }
+    </script>
+</body>
+
+</html>
