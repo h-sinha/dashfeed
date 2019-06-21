@@ -5,7 +5,7 @@ A news aggregator made with python and Flask framework as a part of a Team Proje
 ### Prerequisites
 
 * Flask 1.0.1 or above.
-* Python 2.7 and Python 3 (3.2, 3.4, 3.5, 3.6)
+* Python 2.7 or Python 3 (3.2, 3.4, 3.5, 3.6)
 
 ### Directory layout
 
